@@ -1,0 +1,1 @@
+CREATE DATABASE drybar_comics;

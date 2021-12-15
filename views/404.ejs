@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A minimal event marketing project">
+    <title><%= title %> | DryBar Comics</title>
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&family=Spartan:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" />
+
+    <!-- styles -->
+    <link type="text/css" rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="global-wrap">
+    <div class="global-content">
+        <!-- start:: header -->
+        <%- include('partials/header.ejs') %>
+        <!-- end:: header -->
+
+        <!-- start:: main -->
+        <main class="global-main">
+            <div class="post-section">
+                <div class="post-header item is-hero is-page is-first post no-image page">
+                    <div class="item-container global-color">
+                        <div class="item-content">
+                            <h1 class="item-title">404 | Not Found</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- start:: icon -->
+            <%- include('partials/icon.ejs') %>
+            <!-- end:: icon -->
+        </main>
+        <!-- end:: main -->
+
+        <!-- start:: footer -->
+        <%- include('partials/footer.ejs') %>
+        <!-- end:: footer -->
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,31 +1,38 @@
 const express = require('express')
-const cors = require('cors')
+const path = require('path')
 
 
 const app = express()
 
-// middleware
+//template engine
+app.set('view engine', 'ejs')
 
+// middleware
 app.use(express.json())
 
 app.use(express.urlencoded({ extended: true }))
 
 
 // routers
-const router = require('./routes/productRouter.js')
-app.use('/api/products', router)
+const apiRouter = require('./routes/apiRoutes')
+const viewRouter = require('./routes/viewRoute')
+app.use('/api', apiRouter)
+app.use('/', viewRouter)
 
-//static Images Folder
+//static public folder
+app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/Images', express.static('./Images'))
+
+//handle 404
+app.use((req, res, next) => {
+    res.status(404).render('404', {title: '404'})
+})
 
 
 //port
-
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 3000
 
 //server
-
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`)
 })

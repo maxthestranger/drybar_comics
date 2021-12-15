@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A minimal event marketing project">
+    <title><%= title %> | DryBar Comics</title>
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&family=Spartan:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" />
+
+    <!-- styles -->
+    <link type="text/css" rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="global-wrap">
+    <div class="global-content">
+        <!-- start:: header -->
+        <%- include('partials/header.ejs') %>
+        <!-- end:: header -->
+
+        <!-- start:: main -->
+        <main class="global-main">
+            <!-- start:: loop section -->
+            <div class="loop-section">
+                <!-- start:: hero -->
+                <div class="loop-wrap">
+                    <article class="item is-hero is-first is-image post tag-story tag-art tag-creative tag-hash-post-card-raspberry tag-hash-dark-version tag-hash-details-amethyst">
+                        <div class="item-container global-color">
+                            <a href="#" class="item-image global-image global-color">
+                                <img src="/img/event/1.jpeg" alt="active event" id="event_img" />
+                            </a>
+                            <div class="item-content">
+                                <div class="global-meta">
+                                    <span class="global-reading"># It's gonna be 🔥🔥</span>
+                                </div>
+                                <h2 class="item-title">
+                                    <a href="#" class="global-underline" id="event_title"></a>
+                                </h2>
+                                <p class="item-excerpt" id="event_desc">
+
+                                </p>
+                                <div class="global-tags">
+                                    <a href="#" class="global-tags-hash-sign">From 30<sup>th</sup> July -  1<sup>st</sup> August, 2021</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <h4 class="custom-element-heading global-heading">Various Stages</h4>
+
+                    <article class="item is-even is-image post tag-story tag-illustration tag-hash-post-card-apricot featured">
+                        <div class="item-container">
+                            <div class="item-content">
+                                <a href="#" class="item-image global-image global-color">
+                                    <img src="" alt="title" id="stage_img1">
+
+                                </a>
+                                <h2 class="item-title">
+                                    <a href="#" class="global-underline" id="stage_title1"></a>
+                                </h2>
+                                <div class="global-meta">
+                                    <span class="global-reading">More Info</span>
+                                </div>
+                                <p class="item-excerpt" id="stage_desc1">
+
+                                </p>
+
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="item is-odd is-image post tag-creative tag-product tag-hash-post-card-amber featured">
+                        <div class="item-container">
+                            <div class="item-content">
+                                <a href="#" class="item-image global-image global-color">
+                                    <img src="" alt="random" id="stage_img2">
+
+                                </a>
+                                <h2 class="item-title">
+                                    <a href="#" class="global-underline" id="stage_title2"></a>
+                                </h2>
+                                <div class="global-meta">
+                                    <span class="global-reading">More Info</span>
+                                </div>
+                                <p class="item-excerpt" id="stage_desc2">
+
+                                </p>
+
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <!-- end:: hero -->
+
+                <!-- start:: lineup -->
+                <div class="loop-wrap" style="justify-content: center">
+                    <h4 class="custom-element-heading global-heading">This Year's Lineup</h4>
+                    <div class="custom-elements-wrap loop-wrap" id="lineupDiv">
+
+                    </div>
+                </div>
+                <!-- end:: lineup -->
+
+            <!-- previous events -->
+                <h4 id="ordered-list" style="margin-bottom: 20px">Previous Events</h4>
+                <label for="year" class="">Select Year</label>
+                <select id="year" class="select">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2019">2019</option>
+                </select>
+                <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 20px" id="moreYear">
+                    No Data for selected year
+                </div>
+            </div>
+            <!-- end:: loop section -->
+
+            <!-- start:: icon -->
+            <%- include('partials/icon.ejs') %>
+            <!-- end:: icon -->
+        </main>
+        <!-- end:: main -->
+
+        <!-- start:: footer -->
+        <%- include('partials/footer.ejs') %>
+        <!-- end:: footer -->
+    </div>
+</div>
+
+<script>
+<!-- getSingleEvent Details -->
+(function () {
+    const xhr = new XMLHttpRequest();
+    let obj = {};
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (xhr.status === 200) {
+                updateHtml(JSON.parse(xhr.responseText))
+            }
+            else if (xhr.status === 400) {
+                alert('There was an error 400');
+            }
+            else {
+                alert('something else other than 200 was returned');
+            }
+        }
+    };
+
+    xhr.open(
+        'GET',
+        `http://localhost:3000/api/event/2`,
+        true
+    );
+    xhr.send();
+})();
+
+function updateHtml(data){
+    //event info
+    let event_title = document.querySelector('#event_title').innerText = data.title
+    let event_desc = document.querySelector('#event_desc').innerText = data.description
+    let event_img = document.querySelector('#event_img').src = `/img/event/${data.imgUrl}`
+
+    //stages
+    let stage_title1 = document.querySelector('#stage_title1').innerText = data.stage[0].name
+    let stage_img1 = document.querySelector('#stage_img1').src = `/img/stage/${data.stage[0].imgUrl}`
+    let stage_desc1 = document.querySelector('#stage_desc1').innerText = data.stage[0].description
+
+    let stage_title2 = document.querySelector('#stage_title2').innerText = data.stage[1].name
+    let stage_img2 = document.querySelector('#stage_img2').src = `/img/stage/${data.stage[1].imgUrl}`
+    let stage_desc2 = document.querySelector('#stage_desc2').innerText = data.stage[1].description
+
+    //lineups
+    let lineupDiv = document.querySelector('#lineupDiv')
+
+    data.lineup.map(lineup => {
+        let lineupCon = document.createElement('div')
+        lineupCon.classList.add('custom-element', 'bottom')
+        lineupCon.innerHTML = `
+        <a href="#" class="global-image">
+            <img src="/img/lineup/${lineup.imgUrl}" alt="${lineup.name}">
+        </a>
+        <h2>
+            <a href="#" class="global-underline">${lineup.name}</a>
+        </h2>
+        <span>${lineup.region}</span>
+        `
+        lineupDiv.append(lineupCon)
+    })
+}
+
+//process previous events
+(function () {
+    let yearCon = document.querySelector('#year')
+    yearCon.addEventListener('input', function (e){
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xhr.status === 200) {
+                    let data = JSON.parse(xhr.responseText)
+                    if(data.length){
+                        updateYear(data)
+                    }else{
+                        noData()
+                    }
+
+                }
+                else if (xhr.status === 400) {
+                    alert('There was an error 400');
+                }
+                else {
+                    alert('something else other than 200 was returned');
+                }
+            }
+        };
+
+        xhr.open(
+            'GET',
+            `http://localhost:3000/api/event?year=${e.target.value}`,
+            true
+        );
+        xhr.send();
+    })
+})();
+
+function updateYear(data){
+    data.map(evnt => {
+        let moreYear = document.querySelector('#moreYear')
+        let newDiv = document.createElement('div')
+        newDiv.style.marginRight = '20px'
+        newDiv.innerHTML = `
+        <h2 class="item-title">
+            <a href="#" class="global-underline" id="stage_title1">${evnt.title}</a>
+        </h2>
+        <div>
+            <span class="global-reading"><mark>Lineup</mark></span>
+        </div>
+        <div class="global-meta">
+            <span class="global-reading">
+                ${evnt.lineup.map(line => '@' + line.name)}
+            </span>
+        </div>
+        `
+        moreYear.innerHTML = ''
+        moreYear.appendChild(newDiv)
+    })
+}
+
+function noData(){
+    let moreYear = document.querySelector('#moreYear')
+    moreYear.innerHTML = 'No data for selected Year'
+}
+</script>
+</body>
+</html>

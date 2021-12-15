@@ -33,8 +33,10 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.products = require('./productModel.js')(sequelize, DataTypes)
-db.reviews = require('./reviewModel.js')(sequelize, DataTypes)
+db.event = require('./eventModel.js')(sequelize, DataTypes)
+db.lineup = require('./lineupModel.js')(sequelize, DataTypes)
+db.contact = require('./contactModel.js')(sequelize, DataTypes)
+db.stage = require('./stageModel.js')(sequelize, DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {
@@ -45,18 +47,24 @@ db.sequelize.sync({ force: false })
 
 // 1 to Many Relation
 
-db.products.hasMany(db.reviews, {
-    foreignKey: 'product_id',
-    as: 'review'
+db.event.hasMany(db.lineup, {
+    foreignKey: 'event_id',
+    as: 'lineup'
 })
 
-db.reviews.belongsTo(db.products, {
-    foreignKey: 'product_id',
-    as: 'product'
+db.lineup.belongsTo(db.event, {
+    foreignKey: 'event_id',
+    as: 'event'
 })
 
+db.event.hasMany(db.stage, {
+    foreignKey: 'event_id',
+    as: 'stage'
+})
 
-
-
+db.stage.belongsTo(db.event, {
+    foreignKey: 'event_id',
+    as: 'event'
+})
 
 module.exports = db
